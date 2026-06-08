@@ -1,0 +1,90 @@
+import {useState}
+from "react";
+
+import api
+from "../services/api";
+
+import {
+ useNavigate
+}
+from "react-router-dom";
+
+function Login(){
+
+ const navigate =
+ useNavigate();
+
+ const [email,setEmail] =
+ useState("");
+
+ const [password,setPassword] =
+ useState("");
+
+ const submit =
+ async(e)=>{
+
+  e.preventDefault();
+
+  const res =
+  await api.post(
+
+   "/auth/login",
+
+   {
+    email,
+    password
+   }
+
+  );
+
+  localStorage.setItem(
+
+   "token",
+
+   res.data.accessToken
+
+  );
+
+  navigate("/dashboard");
+
+ };
+
+ return(
+
+  <form onSubmit={submit}>
+
+   <h2>Login</h2>
+
+   <input
+
+    placeholder="Email"
+
+    onChange={(e)=>
+    setEmail(e.target.value)}
+
+   />
+
+   <input
+
+    type="password"
+
+    placeholder="Password"
+
+    onChange={(e)=>
+    setPassword(e.target.value)}
+
+   />
+
+   <button>
+
+    Login
+
+   </button>
+
+  </form>
+
+ );
+
+}
+
+export default Login;
